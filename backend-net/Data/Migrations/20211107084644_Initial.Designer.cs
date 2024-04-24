@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Realworlddotnet.Data.Contexts;
+using RealWorldBackendNet.Data.Contexts;
 
 #nullable disable
 
-namespace Realworlddotnet.Data.Migrations
+namespace RealWorldBackendNet.Data.Migrations
 {
     [DbContext(typeof(ConduitContext))]
     [Migration("20211107084644_Initial")]
@@ -34,7 +34,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("ArticleTag");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Article", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Article", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.ArticleFavorite", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.ArticleFavorite", b =>
                 {
                     b.Property<Guid>("ArticleId")
                         .HasColumnType("TEXT");
@@ -91,7 +91,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("ArticleFavorites");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Comment", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Tag", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Tag", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -133,7 +133,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.User", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.User", b =>
                 {
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
@@ -162,7 +162,7 @@ namespace Realworlddotnet.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.UserLink", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.UserLink", b =>
                 {
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
@@ -179,22 +179,22 @@ namespace Realworlddotnet.Data.Migrations
 
             modelBuilder.Entity("ArticleTag", b =>
                 {
-                    b.HasOne("Realworlddotnet.Core.Entities.Article", null)
+                    b.HasOne("RealWorldBackendNet.Core.Entities.Article", null)
                         .WithMany()
                         .HasForeignKey("ArticlesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Realworlddotnet.Core.Entities.Tag", null)
+                    b.HasOne("RealWorldBackendNet.Core.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Article", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Article", b =>
                 {
-                    b.HasOne("Realworlddotnet.Core.Entities.User", "Author")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorUsername")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -203,15 +203,15 @@ namespace Realworlddotnet.Data.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.ArticleFavorite", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.ArticleFavorite", b =>
                 {
-                    b.HasOne("Realworlddotnet.Core.Entities.Article", "Article")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.Article", "Article")
                         .WithMany("ArticleFavorites")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Realworlddotnet.Core.Entities.User", "User")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.User", "User")
                         .WithMany("ArticleFavorites")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -222,15 +222,15 @@ namespace Realworlddotnet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Comment", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Comment", b =>
                 {
-                    b.HasOne("Realworlddotnet.Core.Entities.Article", "Article")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.Article", "Article")
                         .WithMany("Comments")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Realworlddotnet.Core.Entities.User", "Author")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.User", "Author")
                         .WithMany("ArticleComments")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -241,15 +241,15 @@ namespace Realworlddotnet.Data.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.UserLink", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.UserLink", b =>
                 {
-                    b.HasOne("Realworlddotnet.Core.Entities.User", "FollowerUser")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.User", "FollowerUser")
                         .WithMany("FollowedUsers")
                         .HasForeignKey("FollowerUsername")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Realworlddotnet.Core.Entities.User", "User")
+                    b.HasOne("RealWorldBackendNet.Core.Entities.User", "User")
                         .WithMany("Followers")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,14 +260,14 @@ namespace Realworlddotnet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.Article", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.Article", b =>
                 {
                     b.Navigation("ArticleFavorites");
 
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("Realworlddotnet.Core.Entities.User", b =>
+            modelBuilder.Entity("RealWorldBackendNet.Core.Entities.User", b =>
                 {
                     b.Navigation("ArticleComments");
 

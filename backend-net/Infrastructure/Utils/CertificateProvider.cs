@@ -1,9 +1,9 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
-using Realworlddotnet.Infrastructure.Utils.Interfaces;
+using RealWorldBackendNet.Infrastructure.Utils.Interfaces;
 
-namespace Realworlddotnet.Infrastructure.Utils;
+namespace RealWorldBackendNet.Infrastructure.Utils;
 
 public class CertificateProvider : ICertificateProvider
 {

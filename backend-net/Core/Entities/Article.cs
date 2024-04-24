@@ -1,7 +1,7 @@
-using Realworlddotnet.Core.Dto;
-using Realworlddotnet.Infrastructure.Utils;
+using RealWorldBackendNet.Core.Dto;
+using RealWorldBackendNet.Infrastructure.Utils;
 
-namespace Realworlddotnet.Core.Entities;
+namespace RealWorldBackendNet.Core.Entities;
 
 public class Article
 {

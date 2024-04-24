@@ -1,6 +1,6 @@
-using Realworlddotnet.Core.Dto;
+using RealWorldBackendNet.Core.Dto;
 
-namespace Realworlddotnet.Core.Entities;
+namespace RealWorldBackendNet.Core.Entities;
 
 public class User
 {

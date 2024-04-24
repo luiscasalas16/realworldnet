@@ -1,6 +1,6 @@
-using Realworlddotnet.Core.Dto;
+using RealWorldBackendNet.Core.Dto;
 
-namespace Realworlddotnet.Api.Features.Articles;
+namespace RealWorldBackendNet.Api.Features.Articles;
 
 public interface IArticlesHandler
 {

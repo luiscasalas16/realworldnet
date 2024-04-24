@@ -1,7 +1,7 @@
-using Realworlddotnet.Core.Dto;
-using Realworlddotnet.Core.Repositories;
+using RealWorldBackendNet.Core.Dto;
+using RealWorldBackendNet.Core.Repositories;
 
-namespace Realworlddotnet.Api.Features.Users;
+namespace RealWorldBackendNet.Api.Features.Users;
 
 public class UserHandler : IUserHandler
 {

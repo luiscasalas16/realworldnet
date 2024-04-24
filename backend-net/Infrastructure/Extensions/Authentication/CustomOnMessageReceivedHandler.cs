@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Realworlddotnet.Infrastructure.Extensions.Authentication;
+namespace RealWorldBackendNet.Infrastructure.Extensions.Authentication;
 
 public static class CustomOnMessageReceivedHandler
 {

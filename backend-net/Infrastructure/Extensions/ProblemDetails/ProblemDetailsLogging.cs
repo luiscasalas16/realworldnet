@@ -2,7 +2,7 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Realworlddotnet.Infrastructure.Extensions.ProblemDetails;
+namespace RealWorldBackendNet.Infrastructure.Extensions.ProblemDetails;
 
 public class ProblemDetailsLogging : IPostConfigureOptions<ProblemDetailsOptions>
 {

@@ -1,6 +1,6 @@
-using Realworlddotnet.Core.Repositories;
+using RealWorldBackendNet.Core.Repositories;
 
-namespace Realworlddotnet.Api.Features.Tags;
+namespace RealWorldBackendNet.Api.Features.Tags;
 
 public class TagsHandler : ITagsHandler
 {

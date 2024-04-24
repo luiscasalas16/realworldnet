@@ -1,7 +1,7 @@
-﻿using CommentEntity = Realworlddotnet.Core.Entities.Comment;
-using CommentModel = Realworlddotnet.Api.Features.Articles.Comment;
+﻿using CommentEntity = RealWorldBackendNet.Core.Entities.Comment;
+using CommentModel = RealWorldBackendNet.Api.Features.Articles.Comment;
 
-namespace Realworlddotnet.Api.Features.Articles;
+namespace RealWorldBackendNet.Api.Features.Articles;
 
 public static class CommentMapper
 {

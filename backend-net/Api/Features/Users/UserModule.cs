@@ -1,6 +1,6 @@
-using Realworlddotnet.Core.Dto;
+using RealWorldBackendNet.Core.Dto;
 
-namespace Realworlddotnet.Api.Features.Users;
+namespace RealWorldBackendNet.Api.Features.Users;
 
 public class UserModule : ICarterModule
 {

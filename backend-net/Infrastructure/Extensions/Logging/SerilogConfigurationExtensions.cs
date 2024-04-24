@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
-namespace Realworlddotnet.Infrastructure.Extensions.Logging;
+namespace RealWorldBackendNet.Infrastructure.Extensions.Logging;
 
 public static class SerilogConfigurationExtensions
 {

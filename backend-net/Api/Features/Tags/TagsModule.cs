@@ -1,4 +1,4 @@
-namespace Realworlddotnet.Api.Features.Tags;
+namespace RealWorldBackendNet.Api.Features.Tags;
 
 public class TagsModule : ICarterModule
 {

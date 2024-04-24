@@ -1,4 +1,4 @@
-namespace Realworlddotnet.Api.Features.Profiles;
+namespace RealWorldBackendNet.Api.Features.Profiles;
 
 public record ProfilesEnvelope<T>(T Profile);
 

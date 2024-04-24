@@ -1,3 +1,3 @@
-﻿namespace Realworlddotnet.Api.Features.Tags;
+﻿namespace RealWorldBackendNet.Api.Features.Tags;
 
 public record TagsEnvelope<T>(T tags);

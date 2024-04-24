@@ -1,7 +1,7 @@
-using Realworlddotnet.Core.Dto;
-using Realworlddotnet.Core.Entities;
+using RealWorldBackendNet.Core.Dto;
+using RealWorldBackendNet.Core.Entities;
 
-namespace Realworlddotnet.Core.Repositories;
+namespace RealWorldBackendNet.Core.Repositories;
 
 public interface IConduitRepository
 {

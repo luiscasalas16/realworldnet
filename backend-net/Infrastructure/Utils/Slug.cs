@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Realworlddotnet.Infrastructure.Utils;
+namespace RealWorldBackendNet.Infrastructure.Utils;
 
 // https://stackoverflow.com/questions/2920744/url-slugify-algorithm-in-c
 public static class Slug

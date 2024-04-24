@@ -1,4 +1,4 @@
-﻿namespace Realworlddotnet.Core.Entities;
+﻿namespace RealWorldBackendNet.Core.Entities;
 
 public class ArticleFavorite
 {

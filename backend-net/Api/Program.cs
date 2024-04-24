@@ -1,16 +1,16 @@
 using Microsoft.OpenApi.Models;
-using Realworlddotnet.Api.Features.Articles;
-using Realworlddotnet.Api.Features.Profiles;
-using Realworlddotnet.Api.Features.Tags;
-using Realworlddotnet.Api.Features.Users;
-using Realworlddotnet.Core.Repositories;
+using RealWorldBackendNet.Api.Features.Articles;
+using RealWorldBackendNet.Api.Features.Profiles;
+using RealWorldBackendNet.Api.Features.Tags;
+using RealWorldBackendNet.Api.Features.Users;
+using RealWorldBackendNet.Core.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // add logging
 builder.Host.UseSerilog((hostBuilderContext, services, loggerConfiguration) =>
 {
-    loggerConfiguration.ConfigureBaseLogging("realworldDotnet");
+    loggerConfiguration.ConfigureBaseLogging("RealWorldBackendNet");
     loggerConfiguration.AddApplicationInsightsLogging(services, hostBuilderContext.Configuration);
 });
 
@@ -28,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SupportNonNullableReferenceTypes();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "realworlddotnet", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RealWorldBackendNet", Version = "v1" });
 });
 
 builder.Services.AddScoped<IConduitRepository, ConduitRepository>();
@@ -94,7 +94,7 @@ app.UseProblemDetails();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "realworlddotnet v1"));
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RealWorldBackendNet v1"));
 app.MapCarter();
 
 

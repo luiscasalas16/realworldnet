@@ -1,6 +1,6 @@
-using Realworlddotnet.Core.Dto;
+using RealWorldBackendNet.Core.Dto;
 
-namespace Realworlddotnet.Api.Features.Profiles;
+namespace RealWorldBackendNet.Api.Features.Profiles;
 
 public class ProfilesModule : ICarterModule
 {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Realworlddotnet.Core.Entities;
+using RealWorldBackendNet.Core.Entities;
 
-namespace Realworlddotnet.Core.Dto;
+namespace RealWorldBackendNet.Core.Dto;
 
 public record NewArticleDto([Required] string Title, [Required] string Description, [Required] string Body, [Required] IEnumerable<string> TagList);
 

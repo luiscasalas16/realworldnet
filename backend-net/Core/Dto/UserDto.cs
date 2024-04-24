@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Realworlddotnet.Core.Dto;
+namespace RealWorldBackendNet.Core.Dto;
 
 public record NewUserDto([Required] string Username, [Required] string Email, [Required] string Password);
 

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Realworlddotnet.Core.Dto;
-using Realworlddotnet.Core.Entities;
-using Realworlddotnet.Core.Repositories;
-using Realworlddotnet.Data.Contexts;
+using RealWorldBackendNet.Core.Dto;
+using RealWorldBackendNet.Core.Entities;
+using RealWorldBackendNet.Core.Repositories;
+using RealWorldBackendNet.Data.Contexts;
 
-namespace Realworlddotnet.Data.Services;
+namespace RealWorldBackendNet.Data.Services;
 
 public class ConduitRepository : IConduitRepository
 {

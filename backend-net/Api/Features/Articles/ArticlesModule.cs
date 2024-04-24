@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Realworlddotnet.Core.Dto;
+using RealWorldBackendNet.Core.Dto;
 
-namespace Realworlddotnet.Api.Features.Articles;
+namespace RealWorldBackendNet.Api.Features.Articles;
 
 public class ArticlesModule : ICarterModule
 {

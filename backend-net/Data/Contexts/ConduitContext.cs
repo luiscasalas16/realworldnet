@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Realworlddotnet.Core.Entities;
+using RealWorldBackendNet.Core.Entities;
 
-namespace Realworlddotnet.Data.Contexts;
+namespace RealWorldBackendNet.Data.Contexts;
 
 public class ConduitContext : DbContext
 {

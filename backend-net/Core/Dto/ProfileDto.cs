@@ -1,3 +1,3 @@
-﻿namespace Realworlddotnet.Core.Dto;
+﻿namespace RealWorldBackendNet.Core.Dto;
 
 public record ProfileDto(string Username, string Bio, string Image, bool Following);
