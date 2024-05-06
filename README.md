@@ -1,5 +1,5 @@
 # realworldnet
 
-- Para el backend-net se utilizÛ cÛmo referencia el proyecto de [realworld-api-minimal](https://github.com/Erikvdv/realworldapiminimal)
-- DocumentaciÛn de [Real World App](https://realworld-docs.netlify.app/docs/intro)
-- https://dotnet.testcontainers.org/modules/mssql/
+- Para el backend-net se utiliz√≥ como referencia <https://github.com/Erikvdv/realworldapiminimal>
+- Para el frontend-react se utiliz√≥ c√≥mo referencia <https://github.com/romansndlr/react-vite-realworld-example-app>
+- Documentaci√≥n de [Real World App](https://realworld-docs.netlify.app/docs/intro)
