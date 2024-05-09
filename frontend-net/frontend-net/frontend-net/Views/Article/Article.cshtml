@@ -1,13 +1,15 @@
-﻿<div class="article-page">
+﻿@model frontend_net.Models.Article
+
+<div class="article-page">
     <div class="banner">
         <div class="container">
-            <h1>How to build webapps that scale</h1>
+            <h1>@Model.Title</h1>
 
             <div class="article-meta">
                 <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
                 <div class="info">
-                    <a href="/profile/eric-simons" class="author">Eric Simons</a>
-                    <span class="date">January 20th</span>
+                    <a href="/profile/eric-simons" class="author">@Model.Author</a>
+                    <span class="date">@Model.CreatedAt</span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary">
                     <i class="ion-plus-round"></i>

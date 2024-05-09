@@ -14,7 +14,7 @@
                             <input class="form-control" type="text" placeholder="URL of profile picture" />
                         </fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control form-control-lg" type="text" placeholder="Your Name" />
+                            <input class="form-control form-control-lg" type="text" value="@Context.Session.GetString("username")" placeholder="Your Name" />
                         </fieldset>
                         <fieldset class="form-group">
                             <textarea class="form-control form-control-lg"
@@ -22,7 +22,7 @@
                                       placeholder="Short bio about you"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control form-control-lg" type="text" placeholder="Email" />
+                            <input class="form-control form-control-lg" type="text" value="@Context.Session.GetString("email")" placeholder="Email" />
                         </fieldset>
                         <fieldset class="form-group">
                             <input class="form-control form-control-lg"
@@ -33,7 +33,9 @@
                     </fieldset>
                 </form>
                 <hr />
-                <button class="btn btn-outline-danger">Or click here to logout.</button>
+                <form asp-controller="Authentication" asp-action="Logout" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Or click here to logout.</button>
+                </form>
             </div>
         </div>
     </div>

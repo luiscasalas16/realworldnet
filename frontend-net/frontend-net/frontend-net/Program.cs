@@ -1,3 +1,5 @@
+using frontend_net.API;
+
 namespace frontend_net
 {
     public class Program
@@ -8,6 +10,17 @@ namespace frontend_net
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Register Request class
+            builder.Services.AddScoped<Request>();
+
+            //Agregar sesión
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
@@ -21,6 +34,7 @@ namespace frontend_net
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

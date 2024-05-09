@@ -23,12 +23,29 @@
                         <!-- Add "active" class when you're on that page" -->
                         <a class="nav-link active" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/Authentication/Login">Log in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/Authentication/Register">Sign up</a>
-                    </li>
+                    @{
+                        if (Context.Session.GetString("username") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/Article/Create_Edit">New Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/Settings/Settings">Settings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/Profile/Profile">Profile</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/Authentication/Register">Sign up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/Authentication/Login">Sign in</a>
+                            </li>
+                        }
+                    }
                 </ul>
             </div>
         </nav>
