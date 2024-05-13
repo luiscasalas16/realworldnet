@@ -8,9 +8,12 @@ namespace frontend_net.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AuthenticationController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Login()
@@ -20,7 +23,7 @@ namespace frontend_net.Controllers
 
         public IActionResult ValidarSesion(string email, string password)
         {
-            Request Api = new Request(_configuration);
+            Request Api = new Request(_configuration, _httpContextAccessor);
             var test = Api.LogIn(email, password);
             HttpContext.Session.SetString("username", test.Username);
             HttpContext.Session.SetString("email", test.Email);
@@ -29,7 +32,7 @@ namespace frontend_net.Controllers
 
         public IActionResult ValidarRegistro(string username, string email, string password)
         {
-            Request Api = new Request(_configuration);
+            Request Api = new Request(_configuration, _httpContextAccessor);
             var test = Api.SignUp(username, email, password);
             HttpContext.Session.SetString("username", test.Username);
             HttpContext.Session.SetString("email", test.Email);

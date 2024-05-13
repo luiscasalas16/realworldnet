@@ -7,16 +7,16 @@
                     <a href="/Authentication/Register">Need an account?</a>
                 </p>
 
-                <ul class="error-messages">
+@*                 <ul class="error-messages">
                     <li>That email is already taken</li>
-                </ul>
+                </ul> *@
 
                 <form method="post" action='@Url.Action("ValidarSesion", "Authentication")'>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" name="email" type="text" placeholder="Email" />
+                        <input class="form-control form-control-lg" name="email" type="text" placeholder="Email" required />
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" name="password" type="password" placeholder="Password" />
+                        <input class="form-control form-control-lg" name="password" type="password" placeholder="Password" required />
                     </fieldset>
                     <button type="submit" class="btn btn-lg btn-primary pull-xs-right">Sign in</button>
                 </form>

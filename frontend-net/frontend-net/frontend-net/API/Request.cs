@@ -12,12 +12,15 @@ namespace frontend_net.API
     {
         private readonly IConfiguration _configuration;
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         private readonly string UrlApi;
 
-        public Request(IConfiguration configuration)
+        public Request(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             UrlApi = _configuration.GetValue<string>("UrlApi");
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public User LogIn(string email, string password)
@@ -46,6 +49,8 @@ namespace frontend_net.API
                     userObj.Bio = obj["user"]["bio"];
                     userObj.Image = obj["user"]["image"];
                     userObj.Token = obj["user"]["token"];
+
+                    _httpContextAccessor.HttpContext.Session.SetString("Token", userObj.Token);
 
                     return userObj;
                 }
@@ -83,6 +88,8 @@ namespace frontend_net.API
                     userObj.Image = obj["user"]["image"];
                     userObj.Token = obj["user"]["token"];
 
+                    _httpContextAccessor.HttpContext.Session.SetString("Token", userObj.Token);
+
                     return userObj;
                 }
                 return null;
@@ -102,6 +109,8 @@ namespace frontend_net.API
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + 
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
                 var response = httpClient.PostAsync(string.Empty, new StringContent(
                     JsonConvert.SerializeObject(
                         new
@@ -128,5 +137,37 @@ namespace frontend_net.API
                 return null;
             }
         }
+
+        public Article GetArticle(int id)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + id);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    Article articleObj = new Article();
+                    articleObj.Title = obj["article"]["title"];
+                    articleObj.Description = obj["article"]["description"];
+                    articleObj.Body = obj["article"]["body"];
+                    articleObj.Tags = obj["article"]["tagList"].ToObject<List<string>>();
+
+                    return articleObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
+
+//TODO: al crear usuario o hacer login, guardar TOKEN en sesion para llamarlo en otras peticiones

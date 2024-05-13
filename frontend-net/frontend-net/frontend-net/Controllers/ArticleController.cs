@@ -1,6 +1,7 @@
 ﻿using frontend_net.API;
 using frontend_net.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 
 namespace frontend_net.Controllers
@@ -9,14 +10,19 @@ namespace frontend_net.Controllers
     {
         private readonly Request _request;
 
-    public ArticleController(Request request)
-    {
-        _request = request;
-    }
-
-        public IActionResult Article()
+        public ArticleController(Request request)
         {
-            return View();
+            _request = request;
+        }
+
+        public IActionResult Article(int id)
+        {
+            var article = _request.GetArticle(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+            return View(article);
         }
 
         public IActionResult Create_Edit()
@@ -25,11 +31,11 @@ namespace frontend_net.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateArticle(Article model)
+        public IActionResult CreateArticle(string title, string description, string body, List<Tag> tags)
         {
             if (ModelState.IsValid)
             {
-                var article = _request.CreateArticle(model.Title, model.Description, model.Body, model.Tags.ToList());
+                var article = _request.CreateArticle(title, description, body, tags);
                 if (article != null)
                 {
                     return RedirectToAction("Article", new { id = article.Id });
@@ -40,7 +46,7 @@ namespace frontend_net.Controllers
                 }
             }
 
-            return View("Create_Edit");
+            return View("Article");
         }
     }
 }
