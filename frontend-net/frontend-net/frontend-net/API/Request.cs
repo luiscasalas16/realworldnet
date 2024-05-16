@@ -126,7 +126,10 @@ namespace frontend_net.API
                     articleObj.Title = obj["article"]["title"];
                     articleObj.Description = obj["article"]["description"];
                     articleObj.Body = obj["article"]["body"];
-                    articleObj.Tags = obj["article"]["tagList"].ToObject<List<string>>();
+                    articleObj.Slug = obj["article"]["slug"];
+                    articleObj.CreatedAt = obj["article"]["createdAt"];
+                    articleObj.Author = obj["article"]["author"].ToObject<User>();
+                    List<string> tagList = obj["article"]["tagList"].ToObject<List<string>>();
 
                     return articleObj;
                 }
@@ -138,12 +141,12 @@ namespace frontend_net.API
             }
         }
 
-        public Article GetArticle(int id)
+        public Article GetArticle(string slug)
         {
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + id);
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -156,7 +159,10 @@ namespace frontend_net.API
                     articleObj.Title = obj["article"]["title"];
                     articleObj.Description = obj["article"]["description"];
                     articleObj.Body = obj["article"]["body"];
-                    articleObj.Tags = obj["article"]["tagList"].ToObject<List<string>>();
+                    articleObj.Slug = obj["article"]["slug"];
+                    articleObj.CreatedAt = obj["article"]["createdAt"];
+                    articleObj.Author = obj["article"]["author"].ToObject<User>();
+                    List<string> tagList = obj["article"]["tagList"].ToObject<List<string>>();
 
                     return articleObj;
                 }
@@ -167,7 +173,102 @@ namespace frontend_net.API
                 return null;
             }
         }
+
+        public List<Article> GetArticlesByUser(string username)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles?author=" + username);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    var articles = new List<Article>();
+                    foreach (var item in obj["articles"])
+                    {
+                        Article articleObj = new Article();
+                        articleObj.Title = item["title"];
+                        articleObj.Description = item["description"];
+                        articleObj.Body = item["body"];
+                        articleObj.Slug = item["slug"];
+                        articleObj.CreatedAt = item["createdAt"];
+                        articleObj.Author = item["author"].ToObject<User>();
+                        List<string> tagList = item["tagList"].ToObject<List<string>>();
+                        articles.Add(articleObj);
+                    }
+                    return articles;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public Article UpdateArticle(Article article, string slug)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                var response = httpClient.PutAsync(string.Empty, new StringContent(
+                    JsonConvert.SerializeObject(
+                        new
+                        {
+                            article = new { title = article.Title, description = article.Description, body = article.Body, tagList = article.Tags }
+                        }
+                        ), Encoding.UTF8, "application/json"));
+                var resultJson = response.Result.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(resultJson.Result))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson.Result);
+                    Article articleObj = new Article();
+                    articleObj.Title = obj["article"]["title"];
+                    articleObj.Description = obj["article"]["description"];
+                    articleObj.Body = obj["article"]["body"];
+                    articleObj.Slug = obj["article"]["slug"];
+                    articleObj.CreatedAt = obj["article"]["createdAt"];
+                    articleObj.Author = obj["article"]["author"].ToObject<User>();
+                    List<string> tagList = obj["article"]["tagList"].ToObject<List<string>>();
+                    return articleObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public bool DeleteArticle(string slug)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                var response = httpClient.DeleteAsync(string.Empty).Result;
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
-
-//TODO: al crear usuario o hacer login, guardar TOKEN en sesion para llamarlo en otras peticiones

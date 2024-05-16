@@ -8,7 +8,7 @@
             <div class="article-meta">
                 <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
                 <div class="info">
-                    <a href="/profile/eric-simons" class="author">@Model.Author</a>
+                    <a href="/profile/eric-simons" class="author">@Model.Author.Username</a>
                     <span class="date">@Model.CreatedAt</span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary">
@@ -20,12 +20,15 @@
                     <i class="ion-heart"></i>
                     &nbsp; Favorite Post <span class="counter">(29)</span>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary">
+                <button class="btn btn-sm btn-outline-secondary" onclick="location.href='@Url.Action("Edit", "Article", new { slug = Model.Slug })'">
                     <i class="ion-edit"></i> Edit Article
                 </button>
-                <button class="btn btn-sm btn-outline-danger">
-                    <i class="ion-trash-a"></i> Delete Article
-                </button>
+                <form method="post" action="@Url.Action("DeleteArticle", "Article")">
+                    <input type="hidden" name="slug" value="@Model.Slug" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="ion-trash-a"></i> Delete Article
+                    </button>
+                </form>
             </div>
         </div>
     </div>
