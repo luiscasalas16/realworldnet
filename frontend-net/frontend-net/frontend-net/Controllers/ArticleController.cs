@@ -30,11 +30,6 @@ namespace frontend_net.Controllers
             return View();
         }
 
-        //public IActionResult Edit(Article article)
-        //{
-        //    return View(article);
-        //}
-
         [HttpPost]
         public IActionResult CreateArticle(string title, string description, string body, List<Tag> tags)
         {
@@ -68,6 +63,7 @@ namespace frontend_net.Controllers
         [HttpPost]
         public IActionResult UpdateArticle(Article article, string slug)
         {
+            ModelState.Remove("Author");
             if (ModelState.IsValid)
             {
                 var updatedArticle = _request.UpdateArticle(article, slug);

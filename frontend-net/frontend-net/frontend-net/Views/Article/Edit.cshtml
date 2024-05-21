@@ -7,6 +7,8 @@
 
                 <form method="post" action='@Url.Action("UpdateArticle", "Article")'>
                     <fieldset>
+                        <input type="hidden" name="slug" value="@Model.Slug" />
+                        <input type="hidden" name="slug" value="@Model.Author" />
                         <fieldset class="form-group">
                             <input type="text" class="form-control form-control-lg" placeholder="Article Title" value="@Model.Title" name="title" required />
                         </fieldset>
@@ -14,10 +16,7 @@
                             <input type="text" class="form-control" placeholder="What's this article about?" value="@Model.Description" name="description" required />
                         </fieldset>
                         <fieldset class="form-group">
-                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" value="@Model.Body" name="body" required></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter tags" value="@Model.Tags" name="tags" />
+                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" name="body" required>@Model.Body</textarea>
                         </fieldset>
                         <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                             Edit Article
@@ -28,3 +27,7 @@
         </div>
     </div>
 </div>
+
+@* <fieldset class="form-group">
+        <input type="text" class="form-control" placeholder="Enter tags" value="@Model.Tags" name="tags" />
+   </fieldset> *@

@@ -18,7 +18,7 @@
                     @{
                         if (Context.Session.GetString("username") != null)
                         {
-                            <form asp-controller="Settings" , asp-action="Settings">
+                            <form asp-controller="Settings" , asp-action="Settings", method="get">
                                 <button class="btn btn-sm btn-outline-secondary action-btn">
                                     <i class="ion-gear-a"></i>
                                     &nbsp; Edit Profile Settings
@@ -81,5 +81,3 @@
         </div>
     </div>
 </div>
-
-    

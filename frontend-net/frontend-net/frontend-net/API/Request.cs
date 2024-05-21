@@ -100,6 +100,37 @@ namespace frontend_net.API
             }
         }
 
+        public User GetUser(string token)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "user");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    User userObj = new User();
+                    userObj.Username = obj["user"]["username"];
+                    userObj.Email = obj["user"]["email"];
+                    userObj.Bio = obj["user"]["bio"];
+                    userObj.Image = obj["user"]["image"];
+                    userObj.Token = obj["user"]["token"];
+                    return userObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> UpdateUser(User user)
         {
             try
@@ -286,7 +317,7 @@ namespace frontend_net.API
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + article.Slug);
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));

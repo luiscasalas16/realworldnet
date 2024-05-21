@@ -21,18 +21,18 @@ namespace frontend_net.Controllers
             _request = request;
         }
 
-        //public IActionResult Settings()
-        //{
-        //    ViewBag.Token = HttpContext.Session.GetString("token");
-
-        //    return View();
-        //}
-
         [HttpGet]
         public IActionResult Settings()
         {
-            User user = new User();
-            user.Token = _httpContextAccessor.HttpContext.Session.GetString("token");
+            //var user = _request.GetUser(token);
+            //if(user == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View("Settings", user);
+
+            string token = _httpContextAccessor.HttpContext.Session.GetString("token");
+            User user = _request.GetUser(token);
             return View(user);
         }
 
