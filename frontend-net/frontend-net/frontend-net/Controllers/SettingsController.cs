@@ -24,13 +24,6 @@ namespace frontend_net.Controllers
         [HttpGet]
         public IActionResult Settings()
         {
-            //var user = _request.GetUser(token);
-            //if(user == null)
-            //{
-            //    return NotFound();
-            //}
-            //return View("Settings", user);
-
             string token = _httpContextAccessor.HttpContext.Session.GetString("token");
             User user = _request.GetUser(token);
             return View(user);

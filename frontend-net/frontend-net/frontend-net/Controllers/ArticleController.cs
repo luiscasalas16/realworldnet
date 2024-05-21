@@ -22,6 +22,7 @@ namespace frontend_net.Controllers
             {
                 return NotFound();
             }
+            article.Comments = _request.GetComments(slug);
             return View("Article", article);
         }
 
@@ -90,6 +91,40 @@ namespace frontend_net.Controllers
             else
             {
                 ModelState.AddModelError(string.Empty, "Error deleting article.");
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateComment(string slug, string body)
+        {
+            if (ModelState.IsValid)
+            {
+                var comment = _request.CreateComment(slug, body);
+                if (comment != null)
+                {
+                    return RedirectToAction("Article", new { slug = slug });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error creating comment.");
+                }
+            }
+
+            return View("Article");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteComment(string slug, int commentId)
+        {
+            var result = _request.DeleteComment(slug, commentId);
+            if (result)
+            {
+                return RedirectToAction("Article", new { slug = slug });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error deleting comment.");
                 return View();
             }
         }

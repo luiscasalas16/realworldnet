@@ -23,5 +23,7 @@
         public int FavoritesCount { get; set; } = 0;
 
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+
+        public List<Comment> Comments { get; set; } = new();
     }
 }

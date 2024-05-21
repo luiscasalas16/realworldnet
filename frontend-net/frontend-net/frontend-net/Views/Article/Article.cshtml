@@ -59,51 +59,42 @@
                 @{
                     if (Context.Session.GetString("username") != null && Context.Session.GetString("username") != Model.Author.Username)
                     {
-                        <form class="card comment-form">
+                        <form class="card comment-form" method="post" action="/Article/CreateComment">
+                            <input type="hidden" name="slug" value="@Model.Slug" />
                             <div class="card-block">
-                                <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+                                <textarea class="form-control" placeholder="Write a comment..." rows="3" name="body"></textarea>
                             </div>
                             <div class="card-footer">
                                 <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                                <button class="btn btn-sm btn-primary">Post Comment</button>
+                                <button class="btn btn-sm btn-primary" type="submit">Post Comment</button>
                             </div>
                         </form>
                     }
                 }
-                <div class="card">
-                    <div class="card-block">
-                        <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                        </p>
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="card">
+                        <div class="card-block">
+                            <p class="card-text">@comment.Body</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/profile/@comment.Author.Username" class="comment-author">
+                                <img src="@comment.Author.Image" class="comment-author-img" />
+                            </a>
+                            &nbsp;
+                            <a href="/profile/@comment.Author.Username" class="comment-author">@comment.Author.Username</a>
+                            <span class="date-posted">@comment.CreatedAt.ToString("MMM dd")</span>
+                            @if (Context.Session.GetString("username") == comment.Author.Username)
+                            {
+                                <span class="mod-options">
+                                    <form method="post" action="/Article/DeleteComment/@comment.Id">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </span>
+                            }
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="/profile/author" class="comment-author">
-                            <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        </a>
-                        &nbsp;
-                        <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                        <span class="date-posted">Dec 29th</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-block">
-                        <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="/profile/author" class="comment-author">
-                            <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        </a>
-                        &nbsp;
-                        <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                        <span class="date-posted">Dec 29th</span>
-                        <span class="mod-options">
-                            <i class="ion-trash-a"></i>
-                        </span>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

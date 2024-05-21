@@ -371,5 +371,103 @@ namespace frontend_net.API
                 return false;
             }
         }
+
+        public List<Comment> GetComments(string slug)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    List<Comment> comments = new List<Comment>();
+                    foreach (var item in obj["comments"])
+                    {
+                        Comment commentObj = new Comment();
+                        commentObj.Id = item["id"];
+                        commentObj.Body = item["body"];
+                        commentObj.CreatedAt = item["createdAt"];
+                        commentObj.UpdatedAt = item["updatedAt"];
+                        commentObj.Author = item["author"].ToObject<User>();
+                        comments.Add(commentObj);
+                    }
+                    return comments;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public Comment CreateComment(string slug, string body)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                var response = httpClient.PostAsync(string.Empty, new StringContent(
+                    JsonConvert.SerializeObject(
+                        new
+                        {
+                            comment = new { body = body }
+                        }
+                        ), Encoding.UTF8, "application/json"));
+                var resultJson = response.Result.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(resultJson.Result))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson.Result);
+                    Comment commentObj = new Comment();
+                    commentObj.Id = obj["comment"]["id"];
+                    commentObj.CreatedAt = obj["comment"]["createdAt"];
+                    commentObj.UpdatedAt = obj["comment"]["updatedAt"];
+                    commentObj.Body = obj["comment"]["body"];
+                    commentObj.Author = obj["comment"]["author"].ToObject<User>();
+
+                    return commentObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public bool DeleteComment(string slug, int commentId)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments/" + commentId);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                var response = httpClient.DeleteAsync(string.Empty);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
