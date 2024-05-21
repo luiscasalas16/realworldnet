@@ -8,16 +8,16 @@
                 <form method="post" action='@Url.Action("UpdateArticle", "Article")'>
                     <fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control form-control-lg" placeholder="Article Title" name="title" required />
+                            <input type="text" class="form-control form-control-lg" placeholder="Article Title" value="@Model.Title" name="title" required />
                         </fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control" placeholder="What's this article about?" name="description" required value="@Model.Description"/>
+                            <input type="text" class="form-control" placeholder="What's this article about?" value="@Model.Description" name="description" required />
                         </fieldset>
                         <fieldset class="form-group">
-                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" name="body" required></textarea>
+                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" value="@Model.Body" name="body" required></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter tags" name="tags" />
+                            <input type="text" class="form-control" placeholder="Enter tags" value="@Model.Tags" name="tags" />
                         </fieldset>
                         <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                             Edit Article
@@ -28,5 +28,3 @@
         </div>
     </div>
 </div>
-
-//TODO: model binding para editar...

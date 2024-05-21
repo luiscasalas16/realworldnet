@@ -6,6 +6,8 @@
 
         public string Email { get; set; } = default!;
 
+        public string Password { get; set; } = default!;
+
         public string Bio { get; set; } = string.Empty;
 
         public string Image { get; set; } = string.Empty;

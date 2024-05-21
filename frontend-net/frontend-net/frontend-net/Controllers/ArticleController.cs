@@ -30,10 +30,10 @@ namespace frontend_net.Controllers
             return View();
         }
 
-        public IActionResult Edit()
-        {
-            return View();
-        }
+        //public IActionResult Edit(Article article)
+        //{
+        //    return View(article);
+        //}
 
         [HttpPost]
         public IActionResult CreateArticle(string title, string description, string body, List<Tag> tags)
@@ -55,16 +55,16 @@ namespace frontend_net.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateArticle(string slug)
+        public IActionResult Edit(string slug)
         {
             var article = _request.GetArticle(slug);
             if (article == null)
             {
                 return NotFound();
             }
-            return View("Edit",article);
+            return View("Edit", article);
         }
-        
+
         [HttpPost]
         public IActionResult UpdateArticle(Article article, string slug)
         {
@@ -80,7 +80,7 @@ namespace frontend_net.Controllers
                     ModelState.AddModelError(string.Empty, "Error updating article.");
                 }
             }
-            return View("Edit", article);
+            return View("Article", article);
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace frontend_net.Controllers
             var result = _request.DeleteArticle(slug);
             if (result)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Profile", "Profile");
             }
             else
             {

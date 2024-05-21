@@ -6,10 +6,10 @@
             <h1>@Model.Title</h1>
 
             <div class="article-meta">
-                <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                <a href="/profile/eric-simons"><img src="@Model.Author.Image" /></a>
                 <div class="info">
                     <a href="/profile/eric-simons" class="author">@Model.Author.Username</a>
-                    <span class="date">@Model.CreatedAt</span>
+                    <span class="date">@Model.CreatedAt.ToString("MMMM dd, yyyy")</span>
                 </div>
                 <button class="btn btn-sm btn-outline-secondary">
                     <i class="ion-plus-round"></i>
@@ -23,7 +23,8 @@
                 <button class="btn btn-sm btn-outline-secondary" onclick="location.href='@Url.Action("Edit", "Article", new { slug = Model.Slug })'">
                     <i class="ion-edit"></i> Edit Article
                 </button>
-                <form method="post" action="@Url.Action("DeleteArticle", "Article")">
+                <form method="post" action="@Url.Action("DeleteArticle", "Article")" onsubmit="return confirm('¿Estás 
+                seguro de que deseas eliminar este artículo?');">
                     <input type="hidden" name="slug" value="@Model.Slug" />
                     <button type="submit" class="btn btn-sm btn-outline-danger">
                         <i class="ion-trash-a"></i> Delete Article
@@ -36,10 +37,7 @@
     <div class="container page">
         <div class="row article-content">
             <div class="col-md-12">
-                <p>
-                    @Model.Description
-                </p>
-                <h2 id="introducing-ionic">Introducing RealWorld.</h2>
+                <h2 id="introducing-ionic">@Model.Description</h2>
                 <p>@Model.Body</p>
                 <ul class="tag-list">
                     <li class="tag-default tag-pill tag-outline">realworld</li>
@@ -49,32 +47,6 @@
         </div>
 
         <hr />
-
-        <div class="article-actions">
-            <div class="article-meta">
-                <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-                <div class="info">
-                    <a href="" class="author">Eric Simons</a>
-                    <span class="date">January 20th</span>
-                </div>
-
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="ion-plus-round"></i>
-                    &nbsp; Follow Eric Simons
-                </button>
-                &nbsp;
-                <button class="btn btn-sm btn-outline-primary">
-                    <i class="ion-heart"></i>
-                    &nbsp; Favorite Article <span class="counter">(29)</span>
-                </button>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="ion-edit"></i> Edit Article
-                </button>
-                <button class="btn btn-sm btn-outline-danger">
-                    <i class="ion-trash-a"></i> Delete Article
-                </button>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-xs-12 col-md-8 offset-md-2">
@@ -126,3 +98,5 @@
         </div>
     </div>
 </div>
+
+@* , new { slug = Model.Slug } *@

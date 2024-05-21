@@ -100,6 +100,39 @@ namespace frontend_net.API
             }
         }
 
+        public async Task<bool> UpdateUser(User user)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "user");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                string token = _httpContextAccessor.HttpContext.Session.GetString("token");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
+                }
+
+                
+                string json = JsonConvert.SerializeObject(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                
+                var response = await httpClient.PutAsync(string.Empty, content);
+
+                
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public Article CreateArticle(string title, string description, string body, List<Tag> tags)
         {
             try
@@ -211,12 +244,49 @@ namespace frontend_net.API
             }
         }
 
+        public List<Article> GetAllArticles()
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    var articles = new List<Article>();
+                    foreach (var item in obj["articles"])
+                    {
+                        Article articleObj = new Article();
+                        articleObj.Title = item["title"];
+                        articleObj.Description = item["description"];
+                        articleObj.Body = item["body"];
+                        articleObj.Slug = item["slug"];
+                        articleObj.CreatedAt = item["createdAt"];
+                        articleObj.Author = item["author"].ToObject<User>();
+                        List<string> tagList = item["tagList"].ToObject<List<string>>();
+                        articles.Add(articleObj);
+                    }
+                    return articles;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public Article UpdateArticle(Article article, string slug)
         {
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug);
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + article.Slug);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));

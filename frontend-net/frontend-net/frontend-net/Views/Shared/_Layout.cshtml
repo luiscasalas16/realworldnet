@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var username = Context.Session.GetString("username");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,7 +37,7 @@
                                 <a class="nav-link active" href="/Settings/Settings">Settings</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="/Profile/Profile">Profile</a>
+                                <a class="nav-link active" href="/Profile/Profile">@username</a>
                             </li>
                         }
                         else
