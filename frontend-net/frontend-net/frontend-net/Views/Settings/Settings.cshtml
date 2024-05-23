@@ -6,22 +6,23 @@
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Your Settings</h1>
 
-                <form asp-controller="Settings" asp-action="Settings" method="post">
+                <form method="post" action='@Url.Action("UpdateSettings", "Settings")'>
                     <fieldset>
+                        <input type="hidden" name="token" value="@Model.Token" />
                         <fieldset class="form-group">
-                            <input asp-for="Image" class="form-control" type="text" placeholder="URL of profile picture" />
+                            <input type="text" class="form-control" value="@Model.Image" name="image" placeholder="URL of profile picture" />
                         </fieldset>
                         <fieldset class="form-group">
-                            <input asp-for="Username" class="form-control form-control-lg" type="text" placeholder="Your Name" />
+                            <input type="hidden"  value="@Model.Username" name="username"/>
                         </fieldset>
                         <fieldset class="form-group">
-                            <textarea asp-for="Bio" class="form-control form-control-lg" rows="8" placeholder="Short bio about you"></textarea>
+                            <textarea class="form-control form-control-lg" rows="8" value="@Model.Bio" name="bio" placeholder="Short bio about you"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input asp-for="Email" class="form-control form-control-lg" type="text" placeholder="Email" />
+                            <input type="text" class="form-control form-control-lg" value="@Model.Email" name="email" placeholder="Email" />
                         </fieldset>
                         <fieldset class="form-group">
-                            <input asp-for="Password" class="form-control form-control-lg" type="password" placeholder="New Password" />
+                            <input class="form-control form-control-lg" type="text" value="@Model.Password" name="password" placeholder="New Password" />
                         </fieldset>
                         <button class="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
                     </fieldset>

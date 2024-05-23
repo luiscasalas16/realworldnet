@@ -25,8 +25,14 @@ namespace frontend_net.Controllers
         {
             Request Api = new Request(_configuration, _httpContextAccessor);
             var test = Api.LogIn(email, password);
+            if(test != null)
+            {
+                HttpContext.Session.SetString("token", test.Token);
+            }
             HttpContext.Session.SetString("username", test.Username);
             HttpContext.Session.SetString("email", test.Email);
+            HttpContext.Session.SetString("image", test.Image);
+            HttpContext.Session.SetString("bio", test.Bio);           
             return RedirectToAction("Index", "Home");
         }
 
@@ -34,6 +40,10 @@ namespace frontend_net.Controllers
         {
             Request Api = new Request(_configuration, _httpContextAccessor);
             var test = Api.SignUp(username, email, password);
+            if (test != null)
+            {
+                HttpContext.Session.SetString("token", test.Token);
+            }
             HttpContext.Session.SetString("username", test.Username);
             HttpContext.Session.SetString("email", test.Email);
             return RedirectToAction("Index", "Home");

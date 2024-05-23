@@ -24,20 +24,20 @@ namespace frontend_net.Controllers
         [HttpGet]
         public IActionResult Settings()
         {
-            string token = _httpContextAccessor.HttpContext.Session.GetString("token");
+            string token = HttpContext.Session.GetString("token");
             User user = _request.GetUser(token);
             return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Settings(User user)
+        public IActionResult UpdateSettings(User user, string token)
         {
             if (ModelState.IsValid)
             {
                 Request Api = new Request(_configuration, _httpContextAccessor);
-                var result = await Api.UpdateUser(user);
+                var result = Api.UpdateUser(user);
 
-                if (result)
+                if (result != null)
                 {
                     return RedirectToAction("Profile","Profile");
                 }

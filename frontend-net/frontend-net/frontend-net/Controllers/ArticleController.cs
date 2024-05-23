@@ -125,8 +125,23 @@ namespace frontend_net.Controllers
             else
             {
                 ModelState.AddModelError(string.Empty, "Error deleting comment.");
-                return View();
+                return RedirectToAction("Article");
             }
         }
+
+        //[HttpPost]
+        //public IActionResult AddToFavorites(string slug)
+        //{
+        //    var result = _request.AddToFavorites(slug);
+        //    if (result)
+        //    {
+        //        return RedirectToAction("Article", new { slug = slug });
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Error adding article to favorites.");
+        //        return View("Article");
+        //    }
+        //}
     }
 }

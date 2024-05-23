@@ -2,6 +2,7 @@
 
 @{
     var username = Context.Session.GetString("username");
+    var bio = Context.Session.GetString("bio");
 }
 
 <div class="profile-page">
@@ -12,8 +13,7 @@
                     <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
                     <h4>@username</h4>
                     <p>
-                        Cofounder, lived in Aol's HQ for a few months, kinda looks like Peeta from
-                        the Hunger Games
+                        @bio
                     </p>
                     @{
                         if (Context.Session.GetString("username") != null)

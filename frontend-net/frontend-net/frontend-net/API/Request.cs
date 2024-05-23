@@ -131,7 +131,7 @@ namespace frontend_net.API
             }
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public User UpdateUser(User user)
         {
             try
             {
@@ -141,26 +141,39 @@ namespace frontend_net.API
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
-
                 string token = _httpContextAccessor.HttpContext.Session.GetString("token");
                 if (!string.IsNullOrEmpty(token))
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
                 }
 
-                
-                string json = JsonConvert.SerializeObject(user);
+                string json = JsonConvert.SerializeObject(
+                    new
+                    {
+                        user = new { username = user.Username, email = user.Email, password = user.Password, image = user.Image, bio = user.Bio }
+                    }
+                );
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                
-                var response = await httpClient.PutAsync(string.Empty, content);
+                var response = httpClient.PutAsync(string.Empty, content).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
 
-                
-                return response.IsSuccessStatusCode;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    User userObj = new User();
+                    userObj.Username = obj["user"]["username"];
+                    userObj.Email = obj["user"]["email"];
+                    userObj.Password = obj["user"]["password"];
+                    userObj.Bio = obj["user"]["bio"];
+                    userObj.Image = obj["user"]["image"];
+                    return userObj;
+                }
+                return null;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
         }
 
@@ -468,6 +481,11 @@ namespace frontend_net.API
             {
                 return false;
             }
+        }
+
+        public Article AddToFavorites(string slug)
+        {
+            return null;
         }
     }
 }

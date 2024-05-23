@@ -25,5 +25,7 @@
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
         public List<Comment> Comments { get; set; } = new();
+
+        public ICollection<ArticleFavorite> ArticleFavorites { get; set; } = new List<ArticleFavorite>();
     }
 }
