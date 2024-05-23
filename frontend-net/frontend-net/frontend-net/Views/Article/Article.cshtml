@@ -87,7 +87,7 @@
                             @if (Context.Session.GetString("username") == comment.Author.Username)
                             {
                                 <span class="mod-options">
-                                    <form method="post" action="/Article/DeleteComment/@comment.Id">
+                                    <form method="post" action="/Article/DeleteComment?slug=@Model.Slug&commentId=@comment.Id">
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </span>

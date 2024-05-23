@@ -459,26 +459,58 @@ namespace frontend_net.API
             }
         }
 
+        //public bool DeleteComment(string slug, int commentId)
+        //{
+        //    try
+        //    {
+        //        HttpClient httpClient = new HttpClient();
+        //        httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments/" + commentId);
+        //        httpClient.DefaultRequestHeaders.Accept.Clear();
+        //        httpClient.DefaultRequestHeaders.Accept.Add(
+        //            new MediaTypeWithQualityHeaderValue("application/json"));
+        //        httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+        //            _httpContextAccessor.HttpContext.Session.GetString("Token"));
+        //        var response = httpClient.DeleteAsync(string.Empty);
+        //        if (response.Result.IsSuccessStatusCode)
+        //        {
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
         public bool DeleteComment(string slug, int commentId)
         {
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments/" + commentId);
+                string url = UrlApi + "articles/" + slug + "/comments/" + commentId;
+                Console.WriteLine("URL: " + url);
+                httpClient.BaseAddress = new Uri(url);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
                     _httpContextAccessor.HttpContext.Session.GetString("Token"));
-                var response = httpClient.DeleteAsync(string.Empty);
-                if (response.Result.IsSuccessStatusCode)
+                var response = httpClient.DeleteAsync(string.Empty).Result;
+                if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
-                return false;
+                else
+                {
+                    Console.WriteLine("Response status code: " + response.StatusCode);
+                    Console.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result);
+                    return false;
+                }
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Exception: " + ex.Message);
                 return false;
             }
         }
