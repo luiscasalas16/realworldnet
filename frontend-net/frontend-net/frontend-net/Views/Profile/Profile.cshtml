@@ -3,6 +3,7 @@
 @{
     var username = Context.Session.GetString("username");
     var bio = Context.Session.GetString("bio");
+    var image = Context.Session.GetString("image");
 }
 
 <div class="profile-page">
@@ -10,7 +11,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-md-10 offset-md-1">
-                    <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
+                    <img src="@image" class="user-img" />
                     <h4>@username</h4>
                     <p>
                         @bio

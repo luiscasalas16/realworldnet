@@ -515,9 +515,29 @@ namespace frontend_net.API
             }
         }
 
-        public Article AddToFavorites(string slug)
+        public bool AddToFavorite(ArticleFavorite favorite)
         {
-            return null;
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/" + favorite.Article.Slug + "/favorite");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                var response = httpClient.PostAsync(string.Empty, null);
+                var resultJson = response.Result.Content.ReadAsStringAsync();
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

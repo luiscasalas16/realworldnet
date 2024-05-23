@@ -36,9 +36,11 @@
                     <a href="/profile/@article.Author.Username" class="author">@article.Author.Username</a>
                     <span class="date">@article.CreatedAt.ToString("MMMM dd, yyyy")</span>
                 </div>
-                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                    <i class="ion-heart"></i> @article.FavoritesCount
-                </button>
+                            <form method="post" asp-action="AddToFavorites" asp-route-id="@article.Slug">
+                                <button type="submit" class="btn btn-outline-primary btn-sm pull-xs-right">
+                                    <i class="ion-heart"></i> @article.FavoritesCount
+                                </button>
+                            </form>
             </div>
                 <a href="/Article/Article?slug=@article.Slug" class="preview-link">
                 <h1>@article.Title</h1>

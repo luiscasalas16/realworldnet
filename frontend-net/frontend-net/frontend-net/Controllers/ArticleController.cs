@@ -132,16 +132,33 @@ namespace frontend_net.Controllers
         //[HttpPost]
         //public IActionResult AddToFavorites(string slug)
         //{
-        //    var result = _request.AddToFavorites(slug);
-        //    if (result)
+        //    var article = _request.GetArticle(slug);
+        //    if (article == null)
         //    {
-        //        return RedirectToAction("Article", new { slug = slug });
+        //        return NotFound();
         //    }
-        //    else
+
+        //    var username = HttpContext.Session.GetString("username");
+        //    if (username == null)
+        //    {
+        //        return Unauthorized();
+        //    }
+
+        //    var favorite = new ArticleFavorite
+        //    {
+        //        Username = username,
+        //        ArticleId = article.Id,
+        //        Article = article
+        //    };
+
+        //    var result = _request.AddToFavorite(favorite);
+        //    if (!result)
         //    {
         //        ModelState.AddModelError(string.Empty, "Error adding article to favorites.");
-        //        return View("Article");
+        //        return View("Article", article);
         //    }
+
+        //    return RedirectToAction("Article", new { slug = slug });
         //}
     }
 }

@@ -13,5 +13,9 @@
         public string Image { get; set; } = string.Empty;
 
         public string Token { get; set; } = string.Empty;
+
+        public ICollection<ArticleFavorite>? ArticleFavorites { get; set; }
+
+        public ICollection<Comment>? ArticleComments { get; set; }
     }
 }

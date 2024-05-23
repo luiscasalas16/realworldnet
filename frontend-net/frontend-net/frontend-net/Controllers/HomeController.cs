@@ -41,5 +41,37 @@ namespace frontend_net.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public IActionResult AddToFavorites(string slug)
+        {
+            var article = _request.GetArticle(slug);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            var username = HttpContext.Session.GetString("username");
+            if (username == null)
+            {
+                return Unauthorized();
+            }
+
+            var favorite = new ArticleFavorite
+            {
+                Username = username,
+                ArticleId = article.Id,
+                Article = article
+            };
+
+            var result = _request.AddToFavorite(favorite);
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty, "Error adding article to favorites.");
+                return View("Index", _request.GetAllArticles());
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
