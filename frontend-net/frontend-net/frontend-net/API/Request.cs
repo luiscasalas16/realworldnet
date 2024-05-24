@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -464,21 +465,29 @@ namespace frontend_net.API
         //    try
         //    {
         //        HttpClient httpClient = new HttpClient();
-        //        httpClient.BaseAddress = new Uri(UrlApi + "articles/" + slug + "/comments/" + commentId);
+        //        string url = UrlApi + "articles/" + slug + "/comments/" + commentId;
+        //        Console.WriteLine("URL: " + url);
+        //        httpClient.BaseAddress = new Uri(url);
         //        httpClient.DefaultRequestHeaders.Accept.Clear();
         //        httpClient.DefaultRequestHeaders.Accept.Add(
         //            new MediaTypeWithQualityHeaderValue("application/json"));
         //        httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
         //            _httpContextAccessor.HttpContext.Session.GetString("Token"));
-        //        var response = httpClient.DeleteAsync(string.Empty);
-        //        if (response.Result.IsSuccessStatusCode)
+        //        var response = httpClient.DeleteAsync(string.Empty).Result;
+        //        if (response.IsSuccessStatusCode)
         //        {
         //            return true;
         //        }
-        //        return false;
+        //        else
+        //        {
+        //            Console.WriteLine("Response status code: " + response.StatusCode);
+        //            Console.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result);
+        //            return false;
+        //        }
         //    }
         //    catch (Exception ex)
         //    {
+        //        Console.WriteLine("Exception: " + ex.Message);
         //        return false;
         //    }
         //}
@@ -487,25 +496,26 @@ namespace frontend_net.API
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                string url = UrlApi + "articles/" + slug + "/comments/" + commentId;
-                Console.WriteLine("URL: " + url);
-                httpClient.BaseAddress = new Uri(url);
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
-                    _httpContextAccessor.HttpContext.Session.GetString("Token"));
-                var response = httpClient.DeleteAsync(string.Empty).Result;
-                if (response.IsSuccessStatusCode)
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("Response status code: " + response.StatusCode);
-                    Console.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result);
-                    return false;
+                    string url = UrlApi + "articles/" + slug + "/comments/" + commentId;
+                    Console.WriteLine("URL: " + url);
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
+                        _httpContextAccessor.HttpContext.Session.GetString("Token"));
+                    var response = httpClient.DeleteAsync(url).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Response status code: " + response.StatusCode);
+                        Console.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result);
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)
