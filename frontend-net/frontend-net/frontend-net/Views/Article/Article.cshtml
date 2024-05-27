@@ -18,7 +18,7 @@
                 &nbsp;&nbsp;
                 <button class="btn btn-sm btn-outline-primary">
                     <i class="ion-heart"></i>
-                    &nbsp; Favorite Post <span class="counter">(29)</span>
+                    &nbsp; Favorite Post <span class="counter">@Model.FavoritesCount</span>
                 </button>
                 @{
                     if (Context.Session.GetString("username") != null && Context.Session.GetString("username") == Model.Author.Username)
