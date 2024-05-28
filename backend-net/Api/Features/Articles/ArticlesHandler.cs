@@ -130,6 +130,8 @@ public class ArticlesHandler : IArticlesHandler
             });
 
         comments.Remove(comment);
+        _repository.RemoveArticleComment(comment);
+
         await _repository.SaveChangesAsync(cancellationToken);
     }
 
