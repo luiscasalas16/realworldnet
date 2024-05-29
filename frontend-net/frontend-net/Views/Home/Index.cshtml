@@ -31,9 +31,9 @@
     {
         <div class="article-preview">
             <div class="article-meta">
-                <a href="/profile/@article.Author.Username"><img src="@article.Author.Image" /></a>
+                <a href="/Profile/OtherUserProfile?username=@article.Author.Username"><img src="@article.Author.Image" /></a>
                 <div class="info">
-                    <a href="/profile/@article.Author.Username" class="author">@article.Author.Username</a>
+                    <a href="/Profile/OtherUserProfile?username=@article.Author.Username" class="author">@article.Author.Username</a>
                     <span class="date">@article.CreatedAt.ToString("MMMM dd, yyyy")</span>
                 </div>
                             <form method="post" asp-action="AddToFavorites" asp-route-slug="@article.Slug">

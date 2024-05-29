@@ -1,9 +1,10 @@
-﻿@model List<Article>
+﻿@model UserProfile
 
 @{
-    var username = Context.Session.GetString("username");
-    var bio = Context.Session.GetString("bio");
-    var image = Context.Session.GetString("image");
+    var username = Model.User.Username;
+    var bio = Model.User.Bio;
+    var image = Model.User.Image;
+    var isCurrentUser = Model.IsCurrentUser;
 }
 
 <div class="profile-page">
@@ -17,9 +18,9 @@
                         @bio
                     </p>
                     @{
-                        if (Context.Session.GetString("username") != null)
+                        if (isCurrentUser)
                         {
-                            <form asp-controller="Settings" , asp-action="Settings", method="get">
+                            <form asp-controller="Settings" , asp-action="Settings" , method="get">
                                 <button class="btn btn-sm btn-outline-secondary action-btn">
                                     <i class="ion-gear-a"></i>
                                     &nbsp; Edit Profile Settings
@@ -30,7 +31,7 @@
                         {
                             <button class="btn btn-sm btn-outline-secondary action-btn">
                                 <i class="ion-plus-round"></i>
-                                &nbsp; Follow Eric Simons
+                                &nbsp; Follow @username
                             </button>
                         }
                     }
@@ -39,33 +40,33 @@
         </div>
     </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-md-10 offset-md-1">
-            <div class="articles-toggle">
-                <ul class="nav nav-pills outline-active">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="">My Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Favorited Articles</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 offset-md-1">
+                <div class="articles-toggle">
+                    <ul class="nav nav-pills outline-active">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="">My Articles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Favorited Articles</a>
+                        </li>
+                    </ul>
+                </div>
 
-            @foreach (var article in Model)
-            {
-                <div class="article-preview">
-                    <div class="article-meta">
-                        <a href="/profile/@article.Author.Username"><img src="@article.Author.Image" /></a>
-                        <div class="info">
-                            <a href="/profile/@article.Author.Username" class="author">@article.Author.Username</a>
-                            <span class="date">@article.CreatedAt.ToString("MMMM dd, yyyy")</span>
+                @foreach (var article in Model.Articles)
+                {
+                    <div class="article-preview">
+                        <div class="article-meta">
+                            <a href="/profile/@article.Author.Username"><img src="@article.Author.Image" /></a>
+                            <div class="info">
+                                <a href="/profile/@article.Author.Username" class="author">@article.Author.Username</a>
+                                <span class="date">@article.CreatedAt.ToString("MMMM dd, yyyy")</span>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm pull-xs-right">
+                                <i class="ion-heart"></i> @article.FavoritesCount
+                            </button>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                            <i class="ion-heart"></i> @article.FavoritesCount
-                        </button>
-                    </div>
                         <a href="/Article/Article?slug=@article.Slug" class="preview-link">
                             <h1>@article.Title</h1>
                             <p>@article.Description</p>
@@ -77,8 +78,8 @@
                                 }
                             </ul>
                         </a>
-                </div>
-            }
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>

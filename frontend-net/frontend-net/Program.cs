@@ -42,6 +42,11 @@ namespace frontend_net
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.MapControllerRoute(
+                name: "profile",
+                pattern: "/Profile/Profile/{username}",
+                defaults: new { controller = "Profile", action = "Profile" });
+
             app.Run();
         }
     }

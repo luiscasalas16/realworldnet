@@ -24,8 +24,9 @@ namespace frontend_net.Controllers
         [HttpGet]
         public IActionResult Settings()
         {
+            string username = HttpContext.Session.GetString("name");
             string token = HttpContext.Session.GetString("token");
-            User user = _request.GetUser(token);
+            User user = _request.GetUser(username, token);
             return View(user);
         }
 

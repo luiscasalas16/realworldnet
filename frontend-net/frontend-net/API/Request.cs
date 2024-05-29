@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -101,7 +102,38 @@ namespace frontend_net.API
             }
         }
 
-        public User GetUser(string token)
+        //public User GetUser(string token)
+        //{
+        //    try
+        //    {
+        //        HttpClient httpClient = new HttpClient();
+        //        httpClient.BaseAddress = new Uri(UrlApi + "user");
+        //        httpClient.DefaultRequestHeaders.Accept.Clear();
+        //        httpClient.DefaultRequestHeaders.Accept.Add(
+        //            new MediaTypeWithQualityHeaderValue("application/json"));
+        //        httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+        //        var response = httpClient.GetAsync(string.Empty).Result;
+        //        var resultJson = response.Content.ReadAsStringAsync().Result;
+        //        if (!string.IsNullOrEmpty(resultJson))
+        //        {
+        //            var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+        //            User userObj = new User();
+        //            userObj.Username = obj["user"]["username"];
+        //            userObj.Email = obj["user"]["email"];
+        //            userObj.Bio = obj["user"]["bio"];
+        //            userObj.Image = obj["user"]["image"];
+        //            userObj.Token = obj["user"]["token"];
+        //            return userObj;
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public User GetUser(string username, string token)
         {
             try
             {
@@ -111,6 +143,36 @@ namespace frontend_net.API
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    User userObj = new User();
+                    userObj.Username = obj["user"]["username"];
+                    userObj.Email = obj["user"]["email"];
+                    userObj.Bio = obj["user"]["bio"];
+                    userObj.Image = obj["user"]["image"];
+                    userObj.Token = obj["user"]["token"];
+                    return userObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public User GetOtherUser(string username)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "user");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = httpClient.GetAsync(string.Empty).Result;
                 var resultJson = response.Content.ReadAsStringAsync().Result;
                 if (!string.IsNullOrEmpty(resultJson))
@@ -168,6 +230,35 @@ namespace frontend_net.API
                     userObj.Password = obj["user"]["password"];
                     userObj.Bio = obj["user"]["bio"];
                     userObj.Image = obj["user"]["image"];
+                    return userObj;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public User GetUserProfile(string username)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + $"profiles/{username}");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    User userObj = new User();
+                    userObj.Username = obj["profile"]["username"];
+                    userObj.Email = obj["profile"]["email"];
+                    userObj.Bio = obj["profile"]["bio"];
+                    userObj.Image = obj["profile"]["image"];
                     return userObj;
                 }
                 return null;
@@ -314,6 +405,7 @@ namespace frontend_net.API
                         articleObj.CreatedAt = item["createdAt"];
                         articleObj.Author = item["author"].ToObject<User>();
                         List<string> tagList = item["tagList"].ToObject<List<string>>();
+                        articleObj.FavoritesCount = item["favoritesCount"];
                         articles.Add(articleObj);
                     }
                     return articles;
@@ -492,31 +584,6 @@ namespace frontend_net.API
                 return false;
             }
         }
-
-        //public bool AddToFavorite(ArticleFavorite favorite)
-        //{
-        //    try
-        //    {
-        //        HttpClient httpClient = new HttpClient();
-        //        httpClient.BaseAddress = new Uri(UrlApi + "articles/" + favorite.Article.Slug + "/favorite");
-        //        httpClient.DefaultRequestHeaders.Accept.Clear();
-        //        httpClient.DefaultRequestHeaders.Accept.Add(
-        //            new MediaTypeWithQualityHeaderValue("application/json"));
-        //        httpClient.DefaultRequestHeaders.Add("Authorization", "Token " +
-        //            _httpContextAccessor.HttpContext.Session.GetString("Token"));
-        //        var response = httpClient.PostAsync(string.Empty, null);
-        //        var resultJson = response.Result.Content.ReadAsStringAsync();
-        //        if (response.Result.IsSuccessStatusCode)
-        //        {
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         public Article AddToFavorite(ArticleFavorite favorite)
         {

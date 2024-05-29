@@ -20,7 +20,7 @@
 
         public bool Favorited { get; set; }
 
-        public int FavoritesCount { get; set; } = 0;
+        public int FavoritesCount { get; set; }
 
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
