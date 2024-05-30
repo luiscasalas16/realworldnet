@@ -33,9 +33,16 @@ namespace frontend_net.Controllers
             var articles = _request.GetArticlesByUser(username);
             var isCurrentUser = HttpContext.Session.GetString("username") == username;
 
+            Profile profile = new Profile
+            {
+                Username = user.Username,
+                Bio = user.Bio,
+                Image = user.Image
+            };
+
             var userProfile = new UserProfile
             {
-                User = user,
+                User = profile,
                 Articles = articles,
                 IsCurrentUser = isCurrentUser
             };
@@ -50,7 +57,9 @@ namespace frontend_net.Controllers
                 username = HttpContext.Session.GetString("username");
             }
 
-            var user = _request.GetOtherUser(username);
+            var token = HttpContext.Session.GetString("token");
+
+            var user = _request.GetOtherUser(username, token);
             var articles = _request.GetArticlesByUser(username);
             var isCurrentUser = HttpContext.Session.GetString("username") == username;
 
@@ -62,6 +71,23 @@ namespace frontend_net.Controllers
             };
 
             return View("Profile", userProfile);
+        }
+
+        [HttpPost]
+        public IActionResult FollowUser(string usernameToFollow)
+        {
+            var token = HttpContext.Session.GetString("token");
+
+            bool success = _request.FollowUser(usernameToFollow, token);
+
+            if (success)
+            {
+                return RedirectToAction("Profile", new { username = usernameToFollow });
+            }
+            else
+            {
+                return View("Error");
+            }
         }
     }
 }

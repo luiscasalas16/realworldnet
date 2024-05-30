@@ -2,7 +2,7 @@
 {
     public class UserProfile
     {
-        public User User { get; set; }
+        public Profile User { get; set; }
         public List<Article> Articles { get; set; }
         public List<Article> FavoriteArticles { get; set; }
         public bool IsCurrentUser { get; set; }

@@ -164,27 +164,32 @@ namespace frontend_net.API
             }
         }
 
-        public User GetOtherUser(string username)
+        public Profile GetOtherUser(string username, string token)
         {
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "user");
+                httpClient.BaseAddress = new Uri(UrlApi + "profiles/" + username);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
                 var response = httpClient.GetAsync(string.Empty).Result;
                 var resultJson = response.Content.ReadAsStringAsync().Result;
                 if (!string.IsNullOrEmpty(resultJson))
                 {
                     var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
-                    User userObj = new User();
-                    userObj.Username = obj["user"]["username"];
-                    userObj.Email = obj["user"]["email"];
-                    userObj.Bio = obj["user"]["bio"];
-                    userObj.Image = obj["user"]["image"];
-                    userObj.Token = obj["user"]["token"];
-                    return userObj;
+                    if (obj["profile"] != null)
+                    {
+                        Profile profileObj = new Profile();
+                        profileObj.Username = obj["profile"]["username"];
+                        profileObj.Bio = obj["profile"]["bio"];
+                        profileObj.Image = obj["profile"]["image"];
+                        profileObj.IsFollowing = obj["profile"]["following"] != null 
+                            ? obj["profile"]["following"] : false;
+
+                        return profileObj;
+                    }
                 }
                 return null;
             }
@@ -415,6 +420,64 @@ namespace frontend_net.API
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        public List<Article> GetFollowedUsersArticles(string token)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "/articles/feed");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+                var response = httpClient.GetAsync(string.Empty).Result;
+                var resultJson = response.Content.ReadAsStringAsync().Result;
+                if (!string.IsNullOrEmpty(resultJson))
+                {
+                    var obj = JsonConvert.DeserializeObject<dynamic>(resultJson);
+                    List<Article> articles = new List<Article>();
+                    foreach (var item in obj["articles"])
+                    {
+                        Article article = new Article();
+                        article.Slug = item["slug"];
+                        article.Title = item["title"];
+                        article.Description = item["description"];
+                        article.Body = item["body"];
+                        article.CreatedAt = item["createdAt"];
+                        article.Author = item["author"].ToObject<User>();
+                        article.Favorited = item["favorited"];
+                        article.FavoritesCount = item["favoritesCount"];
+                        articles.Add(article);
+                    }
+                    return articles;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public bool FollowUser(string username, string token)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "profiles/" + username + "/follow");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+                var response = httpClient.PostAsync(string.Empty, null).Result;
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 

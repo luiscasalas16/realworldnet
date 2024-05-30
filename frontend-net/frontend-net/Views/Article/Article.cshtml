@@ -11,10 +11,13 @@
                     <a href="/profile/eric-simons" class="author">@Model.Author.Username</a>
                     <span class="date">@Model.CreatedAt.ToString("MMMM dd, yyyy")</span>
                 </div>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="ion-plus-round"></i>
-                    &nbsp; Follow Eric Simons <span class="counter">(10)</span>
-                </button>
+                <form method="post" action="/Profile/FollowUser">
+                    <input type="hidden" name="usernameToFollow" value="@Model.Author.Username" />
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                        <i class="ion-plus-round"></i>
+                        &nbsp; Follow @Model.Author.Username <span class="counter"></span>
+                    </button>
+                </form>
                 &nbsp;&nbsp;
                 <button class="btn btn-sm btn-outline-primary">
                     <i class="ion-heart"></i>
