@@ -6,9 +6,9 @@
             <h1>@Model.Title</h1>
 
             <div class="article-meta">
-                <a href="/profile/eric-simons"><img src="@Model.Author.Image" /></a>
+                <a href="/Profile/OtherUserProfile?username=@Model.Author.Username"><img src="@Model.Author.Image" /></a>
                 <div class="info">
-                    <a href="/profile/eric-simons" class="author">@Model.Author.Username</a>
+                    <a href="/Profile/OtherUserProfile?username=@Model.Author.Username" class="author">@Model.Author.Username</a>
                     <span class="date">@Model.CreatedAt.ToString("MMMM dd, yyyy")</span>
                 </div>
                 <form method="post" action="/Profile/FollowUser">

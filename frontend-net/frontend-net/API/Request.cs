@@ -481,6 +481,25 @@ namespace frontend_net.API
             }
         }
 
+        public bool UnfollowUser(string username, string token)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri(UrlApi + "profiles/" + username + "/follow");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Token " + token);
+                var response = httpClient.DeleteAsync(string.Empty).Result;
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public Article UpdateArticle(Article article, string slug)
         {
             try

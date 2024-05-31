@@ -29,10 +29,26 @@
                         }
                         else
                         {
-                            <button class="btn btn-sm btn-outline-secondary action-btn">
-                                <i class="ion-plus-round"></i>
-                                &nbsp; Follow @username
-                            </button>
+                            if (Model.User.IsFollowing)
+                            {
+                                <form method="post" action="/Profile/UnfollowUser">
+                                    <input type="hidden" name="usernameToUnfollow" value="@Model.User.Username" />
+                                    <button class="btn btn-sm btn-outline-danger" type="submit" style="align-self:flex-end">
+                                        <i class="ion-plus-round"></i>
+                                        &nbsp; Unfollow @Model.User.Username <span class="counter"></span>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" action="/Profile/FollowUser">
+                                    <input type="hidden" name="usernameToFollow" value="@Model.User.Username" />
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit" style="align-self:flex-end">
+                                        <i class="ion-plus-round"></i>
+                                        &nbsp; Follow @Model.User.Username <span class="counter"></span>
+                                    </button>
+                                </form>
+                            }   
                         }
                     }
                 </div>
@@ -83,3 +99,12 @@
             </div>
         </div>
     </div>
+
+    @* // <button class="btn btn-sm btn-outline-secondary action-btn">
+        //     <a href="/Profile/FollowUser">
+            //     <i class="ion-plus-round"></i>
+            //     &nbsp; Follow @username
+            //
+        </a>
+        //
+    </button> *@

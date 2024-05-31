@@ -82,7 +82,24 @@ namespace frontend_net.Controllers
 
             if (success)
             {
-                return RedirectToAction("Profile", new { username = usernameToFollow });
+                return RedirectToAction("OtherUserProfile", new { username = usernameToFollow });
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UnfollowUser(string usernameToUnfollow)
+        {
+            var token = HttpContext.Session.GetString("token");
+
+            bool success = _request.UnfollowUser(usernameToUnfollow, token);
+
+            if (success)
+            {
+                return RedirectToAction("OtherUserProfile", new { username = usernameToUnfollow });
             }
             else
             {
