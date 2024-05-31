@@ -31,6 +31,13 @@ namespace frontend_net.Controllers
             return View(articles);
         }
 
+        public IActionResult YourFeed()
+        {
+            var token = HttpContext.Session.GetString("token");
+            var articles = _request.GetFollowedUsersArticles(token);
+            return View("Index", articles);
+        }
+
         public IActionResult Privacy()
         {
             return View();

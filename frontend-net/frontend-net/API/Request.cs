@@ -428,7 +428,7 @@ namespace frontend_net.API
             try
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.BaseAddress = new Uri(UrlApi + "/articles/feed");
+                httpClient.BaseAddress = new Uri(UrlApi + "articles/feed");
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
